@@ -6,19 +6,22 @@ import ProductList from "./products/ProductList";
 
 function App() {
   return (
-    <Template>
-      <Switch>
-        <Route path="/products" exact>
-          <ProductList />
-        </Route>
-        <Route path="/products/:slug">
-          <ProductDetail />
-        </Route>
-        <Route path="/" exact>
-          <Landing />
-        </Route>
-      </Switch>
-    </Template>
+      <Template>
+        <Switch>
+          <Route path="/products" exact>
+            <ProductList />
+          </Route>
+          <Route path="/products/:categoryName">
+            <ProductList />
+          </Route>
+          <Route path="/products/view/:productId">
+            <ProductDetail />
+          </Route>
+          <Route path="/" exact>
+            <Landing />
+          </Route>
+        </Switch>
+      </Template>
   );
 }
 
