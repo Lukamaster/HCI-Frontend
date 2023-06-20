@@ -1,6 +1,6 @@
 import Template from "./template/Template";
 import ProductDetail from "./products/detail/ProductDetail";
-import { Switch, Route } from "react-router-dom";
+import {Switch, Route, withRouter} from "react-router-dom";
 import Landing from "./landing/Landing";
 import ProductList from "./products/ProductList";
 
@@ -11,11 +11,11 @@ function App() {
           <Route path="/products" exact>
             <ProductList />
           </Route>
-          <Route path="/products/:categoryName">
+          <Route path="/products/:categoryName" exact>
             <ProductList />
           </Route>
-          <Route path="/products/view/:productId">
-            <ProductDetail />
+          <Route path="/products/view/:productId" component={withRouter(ProductDetail)} exact>
+
           </Route>
           <Route path="/" exact>
             <Landing />

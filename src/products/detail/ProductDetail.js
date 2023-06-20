@@ -15,6 +15,8 @@ function ProductDetail(props) {
 
   const [loading, setLoading] = useState(true)
   const [product, setProduct] = useState([])
+  const [allProducts, setAllProducts] = useState([])
+
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -22,18 +24,31 @@ function ProductDetail(props) {
       setLoading(true);
       try {
         const response = await AxiosRepository.fetchProduct(routeParams.productId).then(result => setProduct(result.data))
-        console.log(routeParams)
+        console.log(product)
       } catch (error) {
         console.log(error)
+        console.log(product)
         console.log(routeParams)
       }
       setLoading(false);
     };
     fetchData();
+    console.log(product)
   }, [])
 
-
-
+  useEffect( () => {
+    const fetchAllProducts = async () => {
+      setLoading(true);
+      try {
+        const response = await AxiosRepository.fetchProducts().then(result => setAllProducts(result.data))
+      } catch (error) {
+        console.log(error)
+        console.log(allProducts)
+      }
+      setLoading(false)
+    };
+    fetchAllProducts();
+  }, [])
 
   return (
       <div className="container mt-5 py-4 px-xl-5">
@@ -42,16 +57,16 @@ function ProductDetail(props) {
           <ol className="breadcrumb p-3">
             <li className="breadcrumb-item">
               <Link className="text-decoration-none link-secondary" to="/products">
-                All Prodcuts
+                All Products
               </Link>
             </li>
             <li className="breadcrumb-item">
-              <a className="text-decoration-none link-secondary" href="!#">
-                Cases &amp; Covers
-              </a>
+              <Link className="text-decoration-none link-secondary" to={!loading && "/products/" + product.productCategory.categoryName}>
+                {!loading && (product.productCategory.categoryName)}
+              </Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              Nillkin iPhone X cover
+              {product.productName}
             </li>
           </ol>
         </nav>
@@ -111,8 +126,8 @@ function ProductDetail(props) {
 
           <div className="col-lg-5">
             <div className="d-flex flex-column h-100">
-              <h2 className="mb-1">Nillkin iPhone X cover</h2>
-              <h4 className="text-muted mb-4">10000 Ks</h4>
+              <h2 className="mb-1">{product.productName}</h2>
+              <h4 className="text-muted mb-4">{product.price}</h4>
 
               <div className="row g-3 mb-4">
                 <div className="col">
@@ -129,22 +144,19 @@ function ProductDetail(props) {
               <hr />
               <dl className="row">
                 <dt className="col-sm-4">Code</dt>
-                <dd className="col-sm-8 mb-3">C0001</dd>
+                <dd className="col-sm-8 mb-3">{product.sku}</dd>
 
                 <dt className="col-sm-4">Category</dt>
-                <dd className="col-sm-8 mb-3">Cases & Covers</dd>
-
-                <dt className="col-sm-4">Brand</dt>
-                <dd className="col-sm-8 mb-3">iPhone X</dd>
+                <dd className="col-sm-8 mb-3">{!loading && (product.productCategory.categoryName)}</dd>
 
                 <dt className="col-sm-4">Manufacturer</dt>
-                <dd className="col-sm-8 mb-3">Nillkin</dd>
+                <dd className="col-sm-8 mb-3">{product.manufacturer}</dd>
 
                 <dt className="col-sm-4">Color</dt>
-                <dd className="col-sm-8 mb-3">Red, Green, Blue, Pink</dd>
+                <dd className="col-sm-8 mb-3">{product.color ? product.color : "N/A"}</dd>
 
-                <dt className="col-sm-4">Status</dt>
-                <dd className="col-sm-8 mb-3">Instock</dd>
+                <dt className="col-sm-4">Warranty</dt>
+                <dd className="col-sm-8 mb-3">{product.hasWarranty === "true" ? "Yes" : "No"}</dd>
 
                 <dt className="col-sm-4">Rating</dt>
                 <dd className="col-sm-8 mb-3">
@@ -173,15 +185,7 @@ function ProductDetail(props) {
               <hr />
               <p className="lead flex-shrink-0">
                 <small>
-                  Nature (TPU case) use environmental non-toxic TPU, silky smooth
-                  and ultrathin. Glittering and translucent, arbitrary rue
-                  reserved volume button cutouts, easy to operate. Side frosted
-                  texture anti-slipping, details show its concern; transparent
-                  frosted logo shows its taste. The release of self, the flavor of
-                  life. Nillkin launched Nature transparent soft cover, only to
-                  retain the original phone style. Subverting tradition,
-                  redefinition. Thinner design Environmental texture better hand
-                  feeling.
+                  Description Temp
                 </small>
               </p>
             </div>
@@ -193,11 +197,11 @@ function ProductDetail(props) {
             <hr />
             <h4 className="text-muted my-4">Related products</h4>
             <div className="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
-              {Array.from({ length: 4 }, (_, i) => {
-                return (
-                    <RelatedProduct key={i} percentOff={i % 2 === 0 ? 15 : null} />
-                );
-              })}
+              {!loading &&
+                (allProducts.map((product, i) => (
+                    <RelatedProduct key={i} product={product} />
+                )))
+              }
             </div>
           </div>
         </div>

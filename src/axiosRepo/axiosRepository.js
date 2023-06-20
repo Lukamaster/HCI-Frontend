@@ -9,9 +9,6 @@ const AxiosRepository = {
         if(category != null){
             return axios.get(`/products/${category}`)
         }
-        else if(category === "all") {
-            return axios.get(`/products/all`)
-        }
         else {
             return axios.get(`/products/all`)
         }
@@ -19,10 +16,6 @@ const AxiosRepository = {
 
     fetchProduct:(id) => {
         return axios.get(`/products/view/${id}`)
-    },
-
-    fetchAllProducts:() => {
-        return axios.get(`/products/all`)
     },
 
     fetchAllCategories:() => {

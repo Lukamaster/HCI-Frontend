@@ -7,20 +7,11 @@ import ScrollToTopOnMount from "../template/ScrollToTopOnMount";
 import AxiosRepository from "../axiosRepo/axiosRepository";
 import {useParams} from "react-router-dom";
 
-const categories = [
-  "All Products",
-  "Phones & Tablets",
-  "Cases & Covers",
-  "Screen Guards",
-  "Cables & Chargers",
-  "Power Banks",
-];
+
 
 const brands = ["Apple", "Samsung", "Google", "HTC"];
 
 const manufacturers = ["HOCO", "Nillkin", "Remax", "Baseus"];
-
-
 
 function FilterMenuLeft() {
 
@@ -38,6 +29,7 @@ function FilterMenuLeft() {
       setLoading(false);
     };
     fetchData();
+    console.log(categories)
   }, [])
 
   return (
@@ -45,18 +37,18 @@ function FilterMenuLeft() {
         <li className="list-group-item d-none d-lg-block">
           <h5 className="mt-1 mb-2">Browse</h5>
           <div className="d-flex flex-wrap my-2">
-            {categories.map((category, i) => {
+            {!loading && (categories.map((category) => {
               return (
                   <Link
-                      key={i}
-                      to={"/products/" + category.name}
+                      key={category.id}
+                      to={!loading && ("/products/" + category.categoryName)}
                       className="btn btn-sm btn-outline-dark rounded-pill me-2 mb-2"
                       replace
                   >
-                    {category.name}
+                    {!loading && (category.categoryName)}
                   </Link>
               );
-            })}
+            }))}
           </div>
         </li>
         <li className="list-group-item">
