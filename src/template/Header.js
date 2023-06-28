@@ -1,10 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Cart from "./Cart";
+import {useShoppingCart} from "../context/ShoppingCartContext";
+
 
 function Header() {
 
   const [openedDrawer, setOpenedDrawer] = useState(false)
+  const {openCart, cartQuantity } = useShoppingCart()
 
   function toggleDrawer() {
     setOpenedDrawer(!openedDrawer);
@@ -33,16 +37,28 @@ function Header() {
               <ul className="navbar-nav me-auto mb-lg-0">
                 <li className="nav-item">
                   <Link to="" className="nav-link" replace onClick={changeNav}>
-                    Explore
+                    Today's Deals
                   </Link>
+                </li>
+                <li className="nav-item">
                   <Link to="/products/all" className="nav-link" replace onClick={changeNav}>
-                    Products
+                    All Products
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/products/all" className="nav-link" replace onClick={changeNav}>
+                    Office
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/products/all" className="nav-link" replace onClick={changeNav}>
+                    Gift Cards
                   </Link>
                 </li>
               </ul>
-              <button type="button" className="btn btn-outline-dark me-3 d-none d-lg-inline">
+              <button type="button" className="btn btn-outline-dark me-3 d-none d-lg-inline" onClick={openCart}>
                 <FontAwesomeIcon icon={["fas", "shopping-cart"]} />
-                <span className="ms-3 badge rounded-pill bg-dark">0</span>
+                <span className="ms-3 badge rounded-pill bg-dark">{cartQuantity}</span>
               </button>
               <ul className="navbar-nav mb-2 mb-lg-0">
                 <li className="nav-item dropdown">
@@ -79,6 +95,7 @@ function Header() {
             <div className="d-inline-block d-lg-none">
               <button type="button" className="btn btn-outline-dark">
                 <FontAwesomeIcon icon={["fas", "shopping-cart"]} />
+
                 <span className="ms-3 badge rounded-pill bg-dark">0</span>
               </button>
               <button className="navbar-toggler p-0 border-0 ms-3" type="button" onClick={toggleDrawer}>

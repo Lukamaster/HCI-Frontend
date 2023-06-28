@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import ScrollToTopOnMount from "../../template/ScrollToTopOnMount";
 import {useEffect, useState} from "react";
 import AxiosRepository from "../../axiosRepo/axiosRepository";
+import {useShoppingCart} from "../../context/ShoppingCartContext";
 
 const iconPath =
     "M18.571 7.221c0 0.201-0.145 0.391-0.29 0.536l-4.051 3.951 0.96 5.58c0.011 0.078 0.011 0.145 0.011 0.223 0 0.29-0.134 0.558-0.458 0.558-0.156 0-0.313-0.056-0.446-0.134l-5.011-2.634-5.011 2.634c-0.145 0.078-0.29 0.134-0.446 0.134-0.324 0-0.469-0.268-0.469-0.558 0-0.078 0.011-0.145 0.022-0.223l0.96-5.58-4.063-3.951c-0.134-0.145-0.279-0.335-0.279-0.536 0-0.335 0.346-0.469 0.625-0.513l5.603-0.815 2.511-5.078c0.1-0.212 0.29-0.458 0.547-0.458s0.446 0.246 0.547 0.458l2.511 5.078 5.603 0.815c0.268 0.045 0.625 0.179 0.625 0.513z";
@@ -13,9 +14,14 @@ function ProductDetail(props) {
   function changeRating(newRating) {}
   const routeParams = useParams();
 
+
   const [loading, setLoading] = useState(true)
   const [product, setProduct] = useState([])
   const [allProducts, setAllProducts] = useState([])
+
+
+  const {getItemQuantity, increaseCartQuantity, decreaseCartQuantity, removeFromCart } = useShoppingCart()
+
 
 
   useEffect(()=> {
@@ -24,6 +30,7 @@ function ProductDetail(props) {
       setLoading(true);
       try {
         const response = await AxiosRepository.fetchProduct(routeParams.productId).then(result => setProduct(result.data))
+        const quantity = getItemQuantity(product.id);
         console.log(product)
       } catch (error) {
         console.log(error)
@@ -33,6 +40,7 @@ function ProductDetail(props) {
       setLoading(false);
     };
     fetchData();
+
     console.log(product)
   }, [])
 
@@ -41,6 +49,7 @@ function ProductDetail(props) {
       setLoading(true);
       try {
         const response = await AxiosRepository.fetchProducts().then(result => setAllProducts(result.data))
+        console.log(product.id)
       } catch (error) {
         console.log(error)
         console.log(allProducts)
@@ -131,12 +140,11 @@ function ProductDetail(props) {
 
               <div className="row g-3 mb-4">
                 <div className="col">
-                  <button className="btn btn-outline-dark py-2 w-100">
+                  <button className="btn btn-outline-dark py-2 w-100" onClick={() => increaseCartQuantity(product.id)}>
                     Add to cart
                   </button>
                 </div>
                 <div className="col">
-                  <button className="btn btn-dark py-2 w-100">Buy now</button>
                 </div>
               </div>
 
