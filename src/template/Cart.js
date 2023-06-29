@@ -10,13 +10,25 @@ import {
     MDBRow,
     MDBTypography,
 } from "mdb-react-ui-kit";
-import React from "react";
+import React, {useState} from "react";
 import {useShoppingCart} from "../context/ShoppingCartContext";
 import CartItem from "./CartItem";
 import {Modal, ModalBody, Stack} from "react-bootstrap";
+import {Link} from "react-router-dom";
+import axiosRepository from "../axiosRepo/axiosRepository";
 
 function Cart({ isOpen }) {
     const {closeCart, cartItems, cartQuantity} = useShoppingCart()
+    const [paymentURL, setPaymentURL] = useState("");
+    const redirectToStripe = async () => {
+        try {
+            const response = await axiosRepository.toPaymentPage().then(result => setPaymentURL(result.data))
+        } catch (error) {
+            console.log(error)
+        }
+        window.location.replace(paymentURL);
+    }
+
     return (
         <Modal show={isOpen} onHide={closeCart} size="lg">
             <ModalBody>
@@ -30,6 +42,9 @@ function Cart({ isOpen }) {
                     {cartItems.map(item => (
                         <CartItem key={item.id} id={item.id}/>
                     ))}
+                        <button type="submit" onClick={redirectToStripe} className="btn btn-outline-dark mt-3" >
+                            Checkout
+                        </button>
                 </Stack>
             </ModalBody>
         </Modal>

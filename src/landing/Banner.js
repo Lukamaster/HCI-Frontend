@@ -1,6 +1,6 @@
-import BannerZero from "./banner-0.jpg";
-import BannerOne from "./banner-1.jpg";
-import BannerTwo from "./banner-2.jpg";
+import BannerZero from "./asus banner-1 (1).jpg";
+import BannerOne from "./geforce-rtx-3080-.jpg";
+import BannerTwo from "./Intel-11th-Gen-Banner.jpg";
 
 function BannerIncidator(props) {
   return (
@@ -29,10 +29,6 @@ function BannerImage(props) {
           alt=""
           src={props.image}
         />
-      </div>
-      <div className="carousel-caption d-none d-lg-block">
-        <h5>Banner Header</h5>
-        <p>Some representative placeholder content for the banner.</p>
       </div>
     </div>
   );

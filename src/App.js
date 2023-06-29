@@ -3,9 +3,11 @@ import ProductDetail from "./products/detail/ProductDetail";
 import {Switch, Route, withRouter} from "react-router-dom";
 import Landing from "./landing/Landing";
 import ProductList from "./products/ProductList";
-import {ShoppingCartProvider} from "./context/ShoppingCartContext";
+import {ShoppingCartProvider, useShoppingCart} from "./context/ShoppingCartContext";
+import {useEffect, useState} from "react";
 
 function App() {
+
   return (
       <ShoppingCartProvider>
         <Template>

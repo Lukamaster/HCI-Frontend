@@ -3,8 +3,30 @@ import FeatureProduct from "./FeatureProduct";
 import ScrollToTopOnMount from "../template/ScrollToTopOnMount";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import AxiosRepository from "../axiosRepo/axiosRepository";
+import Product from "../products/Product";
+
 
 function Landing() {
+
+    const [loading, setLoading] = useState(true)
+    const [products, setProducts] = useState([])
+
+    useEffect(()=> {
+        const fetchData = async () => {
+
+            setLoading(true);
+            try {
+                const response = await AxiosRepository.fetchProducts().then(result => setProducts(result.data))
+            } catch (error) {
+                console.log(error)
+            }
+            setLoading(false);
+        };
+        fetchData();
+    }, [])
+
   return (
     <>
       <ScrollToTopOnMount />
@@ -20,12 +42,14 @@ function Landing() {
           </Link>
         </div>
       </div>
-      <h2 className="text-muted text-center mt-4 mb-3">New Arrival</h2>
+      <h2 className="text-muted text-center mt-4 mb-3">Today's Deals</h2>
       <div className="container pb-5 px-lg-5">
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 px-md-5">
-          {Array.from({ length: 6 }, (_, i) => {
-            return <FeatureProduct key={i} />;
-          })}
+          {!loading && Array.isArray(products) && (
+              products.slice(0,6).map((product, i) => (
+                  <FeatureProduct key={product.id} product={product}/>
+              ))
+          )}
         </div>
       </div>
       <div className="d-flex flex-column bg-white py-4">

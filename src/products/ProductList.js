@@ -121,6 +121,7 @@ function ProductList(props) {
   const [loading, setLoading] = useState(true)
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
+  const [inputText, setInputText] = useState("");
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -132,12 +133,28 @@ function ProductList(props) {
 
       } catch (error) {
         console.log(error)
-        console.log(routeParams)
       }
       setLoading(false);
     };
     fetchData();
   }, [])
+
+  const fetchQuery = async (query) => {
+    setLoading(true);
+    try {
+      const response = await AxiosRepository.fetchSearchQuery(query).then(result => setProducts(result.data))
+      console.log(products)
+    } catch (error) {
+      console.log(error)
+    }
+    setLoading(false);
+  };
+
+  const inputHandler = (e) => {
+    //convert input text to lower case
+    let lowerCase = e.target.value.toLowerCase();
+    setInputText(lowerCase);
+  };
 
   return (
       <div className="container mt-5 py-4 px-xl-5">
@@ -235,8 +252,9 @@ function ProductList(props) {
                         type="text"
                         placeholder="Search products..."
                         aria-label="search input"
+                        onChange={inputHandler}
                     />
-                    <button className="btn btn-outline-dark">
+                    <button className="btn btn-outline-dark" onClick={() => fetchQuery(inputText)}>
                       <FontAwesomeIcon icon={["fas", "search"]} />
                     </button>
                   </div>
@@ -255,15 +273,16 @@ function ProductList(props) {
                       "row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3 mb-4 flex-shrink-0 " +
                       (viewType.grid ? "row-cols-xl-3" : "row-cols-xl-2")
                   }
-              > {!loading && (
+              > {!loading && Array.isArray(products)? (
                   products.map((product, i) => (
                       <Product product={product} key={product.id}/>
                   ))
-              )}
+              ): <Product product={products} key={products.id}/>
+              }
               </div>
               <div className="d-flex align-items-center mt-auto">
               <span className="text-muted small d-none d-md-inline">
-                Showing 10 of 100
+                Showing 10 of {products.length}
               </span>
                 <nav aria-label="Page navigation example" className="ms-auto">
                   <ul className="pagination my-0">

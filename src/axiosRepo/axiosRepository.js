@@ -20,7 +20,18 @@ const AxiosRepository = {
 
     fetchAllCategories:() => {
         return axios.get(`/categories/all`)
-    }
+    },
+
+    fetchSearchQuery:(query) => {
+        return axios.get(`/products/search/${query}`)
+    },
+
+    fetchPaymentIntent:(headers, body) => {
+        return axios.post(`/checkout/create-payment-intent`, headers, body)
+    },
+    toPaymentPage:() => {
+        return axios.post(`/checkout/create-checkout-session`)
+    },
 }
 
 export default AxiosRepository
