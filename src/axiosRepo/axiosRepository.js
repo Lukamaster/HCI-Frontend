@@ -29,8 +29,8 @@ const AxiosRepository = {
     fetchPaymentIntent:(headers, body) => {
         return axios.post(`/checkout/create-payment-intent`, headers, body)
     },
-    toPaymentPage:() => {
-        return axios.post(`/checkout/create-checkout-session`)
+    toPaymentPage:(cartItems) => {
+        return axios.post(`/checkout/create-checkout-session`, cartItems, {"content-type": "application/json"})
     },
 }
 

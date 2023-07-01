@@ -33,8 +33,8 @@ function Landing() {
       <Banner />
       <div className="d-flex flex-column bg-white py-4">
         <p className="text-center px-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          You're Here! Welcome to our amazing selection of PC parts that are sure to serve your building needs,
+            all the way from basic office computers to the latest gaming PC's, we've got you covered.
         </p>
         <div className="d-flex justify-content-center">
           <Link to="/products" className="btn btn-primary" replace>

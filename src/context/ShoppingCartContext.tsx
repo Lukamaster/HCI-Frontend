@@ -8,7 +8,7 @@ type ShoppingCartContext = {
     openCart: () => void
     closeCart: () => void
     getItemQuantity: (id: number) => number
-    increaseCartQuantity: (id: number) => void
+    increaseCartQuantity: (id: number, price: number) => void
     decreaseCartQuantity: (id: number) => void
     removeFromCart: (id: number) => void
     cartQuantity: number
@@ -18,6 +18,7 @@ type ShoppingCartContext = {
 type CartItem = {
     id: number
     quantity: number
+    price: number
 }
 
 const ShoppingCartContext = createContext({} as ShoppingCartContext)
@@ -40,10 +41,10 @@ export function ShoppingCartProvider ( {children} : ShoppingCartProviderProps ) 
         return cartItems.find(item => item.id === id).quantity || 0
     }
 
-    function increaseCartQuantity(id: number) {
+    function increaseCartQuantity(id: number, price: number) {
         setCartItems(currItems => {
             if(currItems.find(item => item.id === id) == null) {
-                return [...currItems, {id, quantity: 1}]
+                return [...currItems, {id, price, quantity: 1}]
 
             } else {
                 return currItems.map(item => {

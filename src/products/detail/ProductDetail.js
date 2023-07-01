@@ -31,11 +31,8 @@ function ProductDetail(props) {
       try {
         const response = await AxiosRepository.fetchProduct(routeParams.productId).then(result => setProduct(result.data))
         const quantity = getItemQuantity(product.id);
-        console.log(product)
       } catch (error) {
         console.log(error)
-        console.log(product)
-        console.log(routeParams)
       }
       setLoading(false);
     };
@@ -49,10 +46,8 @@ function ProductDetail(props) {
       setLoading(true);
       try {
         const response = await AxiosRepository.fetchProducts().then(result => setAllProducts(result.data))
-        console.log(product.id)
       } catch (error) {
         console.log(error)
-        console.log(allProducts)
       }
       setLoading(false)
     };
@@ -136,11 +131,11 @@ function ProductDetail(props) {
           <div className="col-lg-5">
             <div className="d-flex flex-column h-100">
               <h2 className="mb-1">{product.productName}</h2>
-              <h4 className="text-muted mb-4">{product.price}</h4>
+              <h4 className="text-muted mb-4">{"$" + product.price}</h4>
 
               <div className="row g-3 mb-4">
                 <div className="col">
-                  <button className="btn btn-outline-dark py-2 w-100" onClick={() => increaseCartQuantity(product.id)}>
+                  <button className="btn btn-outline-dark py-2 w-100" onClick={() => increaseCartQuantity(product.id, product.price)}>
                     Add to cart
                   </button>
                 </div>

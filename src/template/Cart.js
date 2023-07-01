@@ -20,13 +20,12 @@ import axiosRepository from "../axiosRepo/axiosRepository";
 function Cart({ isOpen }) {
     const {closeCart, cartItems, cartQuantity} = useShoppingCart()
     const [paymentURL, setPaymentURL] = useState("");
-    const redirectToStripe = async () => {
+    const getStripe = async () => {
         try {
-            const response = await axiosRepository.toPaymentPage().then(result => setPaymentURL(result.data))
+            const response = await axiosRepository.toPaymentPage(cartItems).then(result => window.location = result.data)
         } catch (error) {
             console.log(error)
         }
-        window.location.replace(paymentURL);
     }
 
     return (
@@ -42,7 +41,7 @@ function Cart({ isOpen }) {
                     {cartItems.map(item => (
                         <CartItem key={item.id} id={item.id}/>
                     ))}
-                        <button type="submit" onClick={redirectToStripe} className="btn btn-outline-dark mt-3" >
+                        <button type="submit" onClick={getStripe} className="btn btn-outline-dark mt-3" >
                             Checkout
                         </button>
                 </Stack>

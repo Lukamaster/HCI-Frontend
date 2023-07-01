@@ -130,7 +130,6 @@ function ProductList(props) {
       try {
         const response = await AxiosRepository.fetchProducts(routeParams.categoryName).then(result => setProducts(result.data))
         const response2 = await AxiosRepository.fetchAllCategories().then(result => setCategories(result.data))
-
       } catch (error) {
         console.log(error)
       }
@@ -143,7 +142,6 @@ function ProductList(props) {
     setLoading(true);
     try {
       const response = await AxiosRepository.fetchSearchQuery(query).then(result => setProducts(result.data))
-      console.log(products)
     } catch (error) {
       console.log(error)
     }
@@ -167,11 +165,11 @@ function ProductList(props) {
                   to="/products/all"
                   replace
               >
-                All Prodcuts
+                All Products
               </Link>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
-              Cases &amp; Covers
+              {routeParams.categoryName}
             </li>
           </ol>
         </nav>
@@ -234,16 +232,6 @@ function ProductList(props) {
             <div className="d-flex flex-column h-100">
               <div className="row mb-3">
                 <div className="col-lg-3 d-none d-lg-block">
-                  <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      defaultValue=""
-                  >
-                    <option value="">All Models</option>
-                    <option value="1">iPhone X</option>
-                    <option value="2">iPhone Xs</option>
-                    <option value="3">iPhone 11</option>
-                  </select>
                 </div>
                 <div className="col-lg-9 col-xl-5 offset-xl-4 d-flex flex-row">
                   <div className="input-group">
@@ -287,27 +275,27 @@ function ProductList(props) {
                 <nav aria-label="Page navigation example" className="ms-auto">
                   <ul className="pagination my-0">
                     <li className="page-item">
-                      <a className="page-link" href="!#">
+                      <a className="page-link">
                         Previous
                       </a>
                     </li>
-                    <li className="page-item">
-                      <a className="page-link" href="!#">
+                    <li className="page-item active">
+                      <a className="page-link">
                         1
                       </a>
                     </li>
-                    <li className="page-item active">
-                      <a className="page-link" href="!#">
+                    <li className="page-item">
+                      <a className="page-link">
                         2
                       </a>
                     </li>
                     <li className="page-item">
-                      <a className="page-link" href="!#">
+                      <a className="page-link">
                         3
                       </a>
                     </li>
                     <li className="page-item">
-                      <a className="page-link" href="!#">
+                      <a className="page-link">
                         Next
                       </a>
                     </li>

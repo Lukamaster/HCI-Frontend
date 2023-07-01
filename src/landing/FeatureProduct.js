@@ -16,7 +16,7 @@ function FeatureProduct({product}) {
         />
         <div className="card-body">
           <h5 className="card-title text-center">{product.productName}</h5>
-          <p className="card-text text-center text-muted">{product.price}</p>
+          <p className="card-text text-center text-muted">{"$" + product.price}</p>
           <div className="d-grid gap-2">
             <Link to={prodUrl} className="btn btn-outline-dark" replace>
               View Details
