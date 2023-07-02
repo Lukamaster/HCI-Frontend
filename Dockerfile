@@ -1,4 +1,6 @@
-FROM node:lts-alpine3.18
+FROM node:lts-alpine3.18 as BUILD
+
+WORKDIR /app
 
 COPY package.json package-lock.json ./
 
@@ -10,4 +12,11 @@ COPY . .
 
 RUN NODE_OPTIONS=--openssl-legacy-provider npm run build
 
-CMD ["npm", "start"]
+FROM nginx:stable-alpine3.17
+
+COPY --from=BUILD /app/build/ /usr/share/nginx/html/
+
+CMD ["nginx", "-g", "daemon off;"]
+
+
+#CMD ["npm", "start"]
